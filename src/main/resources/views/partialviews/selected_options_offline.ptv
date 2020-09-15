@@ -1,0 +1,2 @@
+<tr><td width=150 align=left><button value="Spawn Selected" action="bypass admin_a b ls" width=140 height=21 back="bigbutton3_over" fore="bigbutton3"></td></tr>
+<tr><td width=150 align=left><button value="Spawn Selected on me" action="bypass admin_a b lsme" width=140 height=21 back="bigbutton3_over" fore="bigbutton3"></td></tr>

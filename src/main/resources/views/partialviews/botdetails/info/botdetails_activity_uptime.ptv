@@ -1,0 +1,3 @@
+<tr><td width="300"><font color="LEVEL">Bot will stay online for the specified minutes after spawn</font></td></tr>
+<tr><td width="300"><table>{{isactivechk}}</table></td></tr>
+<tr><td width="300"><table>{{uptimetextbox}}</table></td></tr>

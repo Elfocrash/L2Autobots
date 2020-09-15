@@ -1,0 +1,104 @@
+<html><body><br>
+
+<table width="610">
+    <tr>
+        <td width="50" align="center"><img src="partymatchicon" width="32" height="32"></td>
+        <td width="230" align="left"><font color="AAAAAA">Creating new bot</font></td>
+        <td width="90" align="right"></td>
+        <td width="75" align="center"><button action="bypass admin_a b navh" value="Back" width=74 height=21 back="L2UI_CH3.Btn1_normalOn" fore="L2UI_CH3.Btn1_normal"></td>
+    </tr>
+</table><br>
+<table border=0 cellspacing=0 cellpadding=0><tr><td width=610><img src="l2ui.squaregray" width="600" height="1"></td></tr></table><br>
+<table width="600" height="22" bgcolor="000000">
+    <tr>
+        <td width="600" align="center">
+            <table width="220">
+                {{botname}}
+                <tr></tr>
+                {{botlevel}}
+            </table>
+        </td>
+    </tr>
+    <tr></tr><tr></tr>
+    <tr>
+        <td width="600" align="center">
+            <table width="350">
+                <tr>
+                    <td>Choose race:</td>
+                    <td width=16 align=right><button action="bypass admin_a b slcs Human" value="" width=16 height=16 back="radiobutton{{human_selected}}" fore="radiobutton{{human_selected}}"></td><td width=40 align=left>Human</td>
+                    <td width=16 align=right><button action="bypass admin_a b slcs Elf" value="" width=16 height=16 back="radiobutton{{elf_selected}}" fore="radiobutton{{elf_selected}}"></td><td width=20 align=left>Elf</td>
+                    <td width=16 align=right><button action="bypass admin_a b slcs Dark_elf" value="" width=16 height=16 back="radiobutton{{delf_selected}}" fore="radiobutton{{delf_selected}}"></td><td width=45 align=left>Dark Elf</td>
+                    <td width=16 align=right><button action="bypass admin_a b slcs Orc" value="" width=16 height=16 back="radiobutton{{orc_selected}}" fore="radiobutton{{orc_selected}}"></td><td width=20 align=left>Orc</td>
+                    <td width=16 align=right><button action="bypass admin_a b slcs Dwarf" value="" width=16 height=16 back="radiobutton{{dwarf_selected}}" fore="radiobutton{{dwarf_selected}}"></td><td width=30 align=left>Dwarf</td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+    <tr></tr>
+    <tr>
+        <td width="600" align="center">
+            <table width="200">
+                <tr>
+                    <td align=right>Class:</td>
+                    <td width=16 align=left><combobox width=100 height=21 var="class" list="{{availableClasses}}"></td>
+                </tr>
+                <tr>
+                    <td align=right>Gender:</td>
+                    <td width=16 align=left><combobox width=100 height=21 var="gender" list="{{genders}}"></td>
+                </tr>
+                <tr>
+                    <td align=right>Hairstyle:</td>
+                    <td width=16 align=left><combobox width=100 height=21 var="hairstyle" list="{{hairstyles}}"></td>
+                </tr>
+                <tr>
+                    <td align=right>Hair color:</td>
+                    <td width=16 align=left><combobox width=100 height=21 var="haircolor" list="{{haircolors}}"></td>
+                </tr>
+                <tr>
+                    <td align=right>Face:</td>
+                    <td width=16 align=left><combobox width=100 height=21 var="face" list="{{faces}}"></td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+    <tr></tr>
+    <tr></tr>
+    <tr>
+        <td width="600" align="center">
+            <table width="200">
+                {{weaponench}}
+            </table>
+        </td>
+    </tr>
+    <tr></tr>
+    <tr>
+        <td width="600" align="center">
+            <table width="200">
+                {{armorench}}
+            </table>
+        </td>
+    </tr>
+    <tr></tr>
+    <tr>
+        <td width="600" align="center">
+            <table width="200">
+                {{jewelench}}
+            </table>
+        </td>
+    </tr>
+    <tr></tr>
+    <tr></tr>
+    <tr>
+        <td width="610" align="center">
+            <table width="200">
+                <tr>
+                    <td width=100 align=center><button action="bypass admin_a b rndbot" value="Randomize" width=74 height=21 back="L2UI_CH3.Btn1_normalOn" fore="L2UI_CH3.Btn1_normal"></td>
+                    <td width=100 align=center><button action="bypass admin_a b crtbot $class $gender $hairstyle $haircolor $face" value="Create" width=74 height=21 back="L2UI_CH3.Btn1_normalOn" fore="L2UI_CH3.Btn1_normal"></td>
+                </tr>
+            </table>
+        </td>        
+    </tr>
+    <tr></tr>
+    <tr></tr>
+</table>
+</body></html>

@@ -1,0 +1,57 @@
+<table width="610" height="250" bgcolor="000000">
+    <tr><td></td></tr>
+    <tr>
+        <td width="300" align="left">
+            <table width="300">
+                <tr><td width="50">Level:</td><td width="178">{{level}}</td></tr>
+                <tr><td width="50">CP:</td><td width="178"><button value="{{currentcp}}/{{maxcp}}" action="" width=100 height=10 back="L2UI_CH3.ps_cpbar" fore="L2UI_CH3.ps_cpbar"></td></tr>
+                <tr><td width="50">HP:</td><td width="178"><button value="{{currenthp}}/{{maxhp}}" action="" width=100 height=10 back="L2UI_CH3.ps_hpbarfill" fore="L2UI_CH3.ps_hpbarfill"></td></tr>
+                <tr><td width="50">MP:</td><td width="178"><button value="{{currentmp}}/{{maxmp}}" action="" width=100 height=10 back="L2UI_CH3.ps_mpbar" fore="L2UI_CH3.ps_mpbar"></td></tr>
+                <tr><td width="50">Location:</td><td width="178">Near {{location}}</td></tr>
+                <tr><td width="50">Coordinates:</td><td width="178">{{coordinates}}</td></tr>
+                <tr><td width="50">Online for:</td><td width="178">{{onlinetime}}</td></tr>
+            </table>
+        </td>
+        {{botactivity}}
+    </tr>
+</table>
+
+<table width="610" bgcolor="000000">
+    <tr><td></td></tr>
+    <tr><td></td></tr>
+    <tr>
+        <td width="400" align="center">
+            <table width="400">
+                <tr>
+                    <td>
+                        <button action="bypass admin_a b edb st {{botname}}" value="Status" width=74 height=21 back="L2UI_CH3.Btn1_normalOn" fore="L2UI_CH3.Btn1_normal">
+                    </td>
+                    <td>
+                        <button action="bypass admin_a b edb in {{botname}}" value="Inventory" width=74 height=21 back="L2UI_CH3.Btn1_normalOn" fore="L2UI_CH3.Btn1_normal">
+                    </td>
+                    <td>
+                        <button action="bypass admin_a b edb sk {{botname}}" value="Skills" width=74 height=21 back="L2UI_CH3.Btn1_normalOn" fore="L2UI_CH3.Btn1_normal">
+                    </td>
+                    <td>
+                        <button action="bypass admin_a b edb bf {{botname}}" value="Buffs" width=74 height=21 back="L2UI_CH3.Btn1_normalOn" fore="L2UI_CH3.Btn1_normal">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <button action="bypass admin_a b edb rc {{botname}}" value="Recall" width=74 height=21 back="L2UI_CH3.Btn1_normalOn" fore="L2UI_CH3.Btn1_normal">
+                    </td>
+                    <td>
+                        <button action="bypass admin_a b edb gt {{botname}}" value="Goto" width=74 height=21 back="L2UI_CH3.Btn1_normalOn" fore="L2UI_CH3.Btn1_normal">
+                    </td>
+                    <td>
+                        <button action="bypass admin_a b edb un {{botname}}" value="Unstuck" width=74 height=21 back="L2UI_CH3.Btn1_normalOn" fore="L2UI_CH3.Btn1_normal">
+                    </td>
+                    <td>
+                        <button action="bypass admin_a b edb dl {{botname}}" value="Delete bot" width=74 height=21 back="L2UI_CH3.Btn1_normalOn" fore="L2UI_CH3.Btn1_normal">
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+    <tr><td></td></tr>
+</table>

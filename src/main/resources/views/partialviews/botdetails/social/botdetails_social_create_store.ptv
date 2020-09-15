@@ -1,0 +1,80 @@
+<table width="610" height="22" bgcolor="000000">
+    <tr>
+        <td width="400" align="left">
+        </td>
+        <td width="75" align="right"><button action="bypass admin_a b t bsh" value="Back" width=74 height=21 back="L2UI_CH3.Btn1_normalOn" fore="L2UI_CH3.Btn1_normal"></td>
+    </tr>
+</table>
+
+
+<table width="610" bgcolor="000000">
+    <tr>
+        <td width="180" align="left">
+            <table width="180" bgcolor="000000">
+                <tr>
+                    <td width="180" align="center">
+                        Item search<br1>_____________________________
+                    </td>
+                </tr>
+                <tr>
+                    <td width="180" align="center">
+                        <table width="180" bgcolor="000000">
+                            <tr>
+                                <td width="90" align="left">Item id:</td>
+                                <td width="90" align="right"><edit var="itemid" width=90></td>
+                            </tr>
+                            <tr></tr><tr></tr>
+                            <tr>
+                                <td width="90" align="left">Item count:</td>
+                                <td width="90" align="right"><edit var="itemcount" width=90 type="number"></td>
+                            </tr>
+                            <tr></tr><tr></tr>
+                            <tr>
+                                <td width="90" align="left">Price per item:</td>
+                                <td width="90" align="right"><edit var="priceperitem" width=90 type="number"></td>
+                            </tr>
+                            <tr></tr><tr></tr>
+                            {{additembtn}}
+                            {{createstore}}
+                        </table>
+                    </td>
+                </tr>
+            </table>
+        </td>
+        <td width="410" align="left">
+            <table width="410" bgcolor="000000">
+                <tr>
+                    <td width="410" align="center">
+                        Items to list<br1>_______________________________________
+                    </td>
+                </tr>
+            </table>
+            <table width="410" bgcolor="000000">
+                <tr></tr>
+                {{message_textbox}}
+            </table>
+            <table width="410" bgcolor="000000">
+                <tr>
+                    <td width="410" align="left">
+                        <table width="410" bgcolor="000000">
+                            <tr>
+                                <td width="157" align=center><font color="LEVEL">Item description</font></td>
+                                <td width="50" align=center><font color="LEVEL">Quantity</font></td>
+                                <td width="80" align=center><font color="LEVEL">Price per item</font></td>
+                                <td width="40" align=center><font color="LEVEL">Actions</font></td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+                <tr><td width="410" align="center"></td></tr>
+                <tr>
+                    <td width="410" align="left">
+                        <table width="410" bgcolor="000000">
+                            {{botdetails_social_create_store_item.ptv}}
+                        </table>
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+</table>

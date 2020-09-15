@@ -1,0 +1,12 @@
+<tr>
+    <td fixwidth="16" align="center"><img src="{{onlineicon}}" width="16" height="16"></td>
+    <td fixwidth="20" align="center">{{level}}</td>
+    <td fixwidth="75" align="center"><a action="bypass admin_a b eb {{name}}">{{name}}</a></td>
+    <td fixwidth="80" align="center">{{classname}}</td>
+    <td fixwidth="50" align="center">{{claninfo}}</td>
+    <td fixwidth="50" align="center">{{allyinfo}}</td>
+    {{listbotsrow_online.ptv}}
+    {{listbotsrow_offline.ptv}}
+    {{listbotsrow_checked.ptv}}
+    {{listbotsrow_unchecked.ptv}}
+</tr>

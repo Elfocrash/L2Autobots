@@ -1,0 +1,7 @@
+<tr>
+    <td width="32" align="center"><img src="{{itemicon}}" width=32 height=32></td>
+    <td width="125" align="center">{{itemname}}</td>
+    <td width="50" align="center">{{itemcount}}</td>
+    <td width="80" align="center">{{itemcost}}</td>
+    <td width="40" align="center"><a action="bypass admin_a b t bs {{buysell}} r {{index}}">X</a></td>
+</tr>

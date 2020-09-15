@@ -1,0 +1,6 @@
+<td width=43><button value="" action="bypass admin_a b t bi" width=43 height=40 back="mainwndtabbtn1_over" fore="MainWndTabBtn1{{info_selected}}"></td>
+<td width=43><button value="" action="bypass admin_a b t bc" width=43 height=40 back="mainwndtabbtn3_over" fore="MainWndTabBtn3{{combat_selected}}"></td>
+<td width=43><button value="" action="bypass admin_a b t bsk" width=43 height=40 back="mainwndtabbtn2_over" fore="MainWndTabBtn2{{skills_selected}}"></td>
+<td width=43><button value="" action="bypass admin_a b t bs" width=43 height=40 back="mainwndtabbtn4_over" fore="MainWndTabBtn4{{social_selected}}"></td>
+<td width=43><button value="" action="bypass admin_a b t bch" width=43 height=40 back="mainwndtabbtn5_over" fore="MainWndTabBtn5{{chattab_selected}}"></td>
+<td width=438></td>

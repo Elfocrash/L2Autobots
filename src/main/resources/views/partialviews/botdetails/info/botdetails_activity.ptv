@@ -1,0 +1,11 @@
+<td width="300" align="left">
+    <table width="300">
+        <tr><td width="300">Activity preferences</td></tr>
+        <tr>
+            <td width="300"><button action="bypass admin_a b c ban" value="              None" width=16 height=12 back="radiobutton{{noneselected}}" fore="radiobutton{{noneselected}}"></td>
+            <td width="300"><button action="bypass admin_a b c bau" value="                Uptime" width=16 height=12 back="radiobutton{{uptimeselected}}" fore="radiobutton{{uptimeselected}}"></td>
+            <td width="300"><button action="bypass admin_a b c bas" value="                   Schedule" width=16 height=12 back="radiobutton{{scheduleselected}}" fore="radiobutton{{scheduleselected}}"></td>
+        </tr>
+    </table>
+    <table width="300">{{activityoptions}}</table>
+</td>

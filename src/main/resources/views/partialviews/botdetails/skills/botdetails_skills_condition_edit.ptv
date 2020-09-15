@@ -1,0 +1,14 @@
+<table width="600">
+<tr>
+    <td width="32" align=left><img src="{{skillicon}}" width=32 height=16></td>
+    <td width=60 align=left><font color="LEVEL">{{skillname}}</font></td>
+    <td>Condition: </td>
+    <td><combobox width=60 var=edittargettype list="{{edittargets}}"></td>
+    <td><combobox width=60 var=editstatusType list="{{editstatuses}}"></td>
+    <td><combobox width=45 var=editcondition list="{{editconditions}}"></td>
+    <td><combobox width=80 var=editamounttype list="{{editcondvaluetypes}}"></td>
+    <td width="40"><edit var="editvalue" width=40 type=number></td>
+    <td width=25 align=right><a action="bypass admin_a b sk s $edittargettype $editstatusType $editcondition $editamounttype $editvalue {{skillname}}">Save</a></td>
+    <td width=25 align=right><a action="bypass admin_a b sk c">Cancel</a></td>
+</tr>
+</table>

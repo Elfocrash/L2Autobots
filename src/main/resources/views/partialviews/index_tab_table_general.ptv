@@ -1,0 +1,22 @@
+<table width="610" height="125" bgcolor="000000">
+    <tr>
+        <td width="150" align="left">
+            <table width="150">
+                <tr><td width=150 align=left><edit var="MultiFunc" width=135 height=14></td></tr><tr></tr>
+                <tr><td width=150 align=left><button value="Create Autobot" action="bypass admin_a b crb" width=140 height=21 back="bigbutton3_down" fore="bigbutton3"></td></tr>
+                <tr><td width=150 align=left><button value="Spawn Random Autobot" action="bypass admin_a b sr" width=140 height=21 back="bigbutton3_down" fore="bigbutton3"></td></tr>
+                <tr><td width=150 align=left><button value="Spawn Many Rnd Bots" action="bypass admin_a b sr $MultiFunc" width=140 height=21 back="bigbutton3_down" fore="bigbutton3"></td></tr>
+            </table>
+        </td>
+        <td fixwidth="300" align="left">
+            <table width="300">
+                <tr><td width=150 height=25 align=left>&nbsp;</td></tr>
+                <tr><td width=150 align=left><button value="Despawn target" action="bypass admin_a b det" width=140 height=21 back="bigbutton3_down" fore="bigbutton3"></td></tr>
+                <tr><td width=150 align=left><button value="Despawn in range" action="bypass admin_a b der $MultiFunc" width=140 height=21 back="bigbutton3_down" fore="bigbutton3"></td></tr>
+            </table>
+        </td>
+        <td fixwidth="150" align="left">
+            {{selected_options.ptv}}
+        </td>
+    </tr>
+</table>

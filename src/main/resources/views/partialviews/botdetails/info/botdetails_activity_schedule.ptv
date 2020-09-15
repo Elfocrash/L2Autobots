@@ -1,0 +1,22 @@
+<tr><td><font color="LEVEL">Bot will login and logout on the specified times below</font></td></tr>
+<tr><td><font color="LEVEL">UTC timezone is used. Current UTC time is: {{currenttime}}</font></td></tr>
+<tr><td width="300"><table>{{isactivechk}}</table></td></tr>
+<tr><td width="300">
+<table height="17">
+<tr>
+<td>Login time: </td>
+<td><combobox width=40 height=17 var=loginh list="{{loginhours}}"></td>
+<td><combobox width=40 height=17 var=loginm list="{{loginminutes}}"></td>
+</tr>
+</table>
+</td></tr>
+<tr><td width="300">
+    <table>
+        <tr>
+            <td>Logout time: </td>
+            <td><combobox width=40 height=17 var=logouth list="{{logouthours}}"></td>
+            <td><combobox width=40 height=17 var=logoutm list="{{logoutminutes}}"></td>
+        </tr>
+    </table>
+</td></tr>
+<tr><td><button value="Save" action="bypass admin_a b sv bass $loginh $loginm $logouth $logoutm" width=65 height=19 back="L2UI_ch3.smallbutton2_over" fore="L2UI_ch3.smallbutton2"></td></tr>

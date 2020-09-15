@@ -1,0 +1,2 @@
+<tr><td><font color="LEVEL">Bot's activity is controlled manually</font></td></tr>
+<tr><td width="300"><table>{{isactivechk}}</table></td></tr>

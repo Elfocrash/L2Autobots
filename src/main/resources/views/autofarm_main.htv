@@ -1,0 +1,9 @@
+<html><body><br>
+<center>
+<font color="LEVEL">Autofarm Engine</font>
+<br>
+<button action="bypass autofarm {{startstopcmd}}" value="{{startstoptext}}" width=74 height=21 back="L2UI_ch3.Btn1_normalOn" fore="L2UI_ch3.Btn1_normal"><br>
+<button action="bypass autofarm todo" value="Configure" width=74 height=21 back="L2UI_ch3.Btn1_normalOn" fore="L2UI_ch3.Btn1_normal"><br>
+{{closebtn}}
+</center>
+</body></html>

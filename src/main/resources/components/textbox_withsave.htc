@@ -1,0 +1,5 @@
+<tr>
+<td align={{align}} width={{labelwidth}}>{{label}}: </td>
+{{txtcontent}}
+<td><a action="{{action}}">{{actionname}}</a></td>
+</tr>

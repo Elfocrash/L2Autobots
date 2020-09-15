@@ -1,0 +1,29 @@
+<br>
+<table width="600" height="22" bgcolor="000000">
+    <tr>
+        <td width="300" align="center">
+            Attack Preferences
+        </td>
+        <td width="300" align="center">
+            Potions
+        </td>
+    </tr>
+    <tr>
+        <td width="300" align="left">
+            <table width="300">
+                {{radiustextbox}}{{targprefcombobox}}{{atkplayertypecombobox}}{{classspecific}}
+            </table>
+        </td>
+        <td width="300" align="left">
+            <table width="220">
+                {{potions_cp}}{{potions_qhp}}{{potions_ghp}}
+            </table>
+        </td>
+    </tr>
+    <tr>
+        <td width="300" align="left">
+            <br>
+            <button value="Visualise range" action="bypass admin_a b visar {{name}}" width=95 height=21 back="bigbutton_over" fore="bigbutton">
+        </td>
+    </tr>
+</table>

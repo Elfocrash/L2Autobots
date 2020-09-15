@@ -1,0 +1,4 @@
+<td fixwidth="60">
+    <a action="bypass admin_a b l {{name}}">Spawn</a> &nbsp; 
+    <a action="bypass admin_a b lm {{name}}">on me</a>
+</td>

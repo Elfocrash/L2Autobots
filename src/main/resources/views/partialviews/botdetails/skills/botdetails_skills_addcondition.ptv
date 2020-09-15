@@ -1,0 +1,12 @@
+<table width="600">
+    <tr>
+        <td><combobox width=130 var=addskillname list="{{availableskills}}"></td>
+        <td>Condition: </td>
+        <td><combobox width=60 var=addtargettype list="{{availabletargets}}"></td>
+        <td><combobox width=40 var=addstatusType list="{{availablestatuses}}"></td>
+        <td><combobox width=45 var=addcondition list="{{availableconditions}}"></td>
+        <td><combobox width=80 var=addamounttype list="{{availablecondvaluetypes}}"></td>
+        <td width="40"><edit var="addvalue" width=40 type=number></td>
+        <td><a action="bypass admin_a b sk a $addtargettype $addstatusType $addcondition $addamounttype $addvalue $addskillname">Add</a></td>
+    </tr>
+</table>

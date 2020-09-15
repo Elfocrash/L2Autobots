@@ -1,0 +1,5 @@
+<tr>
+<td align=right width=75>{{label}}: </td>
+<td><combobox var="{{varname}}" width=100 height=13 list="{{items}}"></td>
+<td><a action="{{action}}">{{actionname}}</a></td>
+</tr>

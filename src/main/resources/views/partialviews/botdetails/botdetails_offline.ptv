@@ -1,0 +1,1 @@
+<td width="75" align="center"><button action="bypass admin_a b {{spawn_command}}" value="{{spawn_text}}" width=74 height=21 back="L2UI_CH3.Btn1_normalOn" fore="L2UI_CH3.Btn1_normal"></td>

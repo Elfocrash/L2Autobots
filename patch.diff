@@ -1,0 +1,514 @@
+diff --git a/src/main/java/net/sf/l2j/gameserver/data/xml/TeleportLocationData.java b/src/main/java/net/sf/l2j/gameserver/data/xml/TeleportLocationData.java
+index d554ff050..51b032107 100644
+--- a/src/main/java/net/sf/l2j/gameserver/data/xml/TeleportLocationData.java
++++ b/src/main/java/net/sf/l2j/gameserver/data/xml/TeleportLocationData.java
+@@ -1,16 +1,15 @@
+ package net.sf.l2j.gameserver.data.xml;
+ 
+-import java.nio.file.Path;
+-import java.util.HashMap;
+-import java.util.Map;
+-
+ import net.sf.l2j.commons.data.xml.IXmlReader;
+ import net.sf.l2j.commons.util.StatsSet;
+-
+ import net.sf.l2j.gameserver.model.location.TeleportLocation;
+-
+ import org.w3c.dom.Document;
+ 
++import java.nio.file.Path;
++import java.util.Collection;
++import java.util.HashMap;
++import java.util.Map;
++
+ /**
+  * This class loads and stores {@link TeleportLocation}s.
+  */
+@@ -52,6 +51,8 @@ public TeleportLocation getTeleportLocation(int id)
+ 		return _teleports.get(id);
+ 	}
+ 	
++	public Collection<TeleportLocation> getAllTeleportLocations() {return _teleports.values(); }
++	
+ 	public static TeleportLocationData getInstance()
+ 	{
+ 		return SingletonHolder.INSTANCE;
+diff --git a/src/main/java/net/sf/l2j/gameserver/idfactory/IdFactory.java b/src/main/java/net/sf/l2j/gameserver/idfactory/IdFactory.java
+index 833e7da69..07bb7f523 100644
+--- a/src/main/java/net/sf/l2j/gameserver/idfactory/IdFactory.java
++++ b/src/main/java/net/sf/l2j/gameserver/idfactory/IdFactory.java
+@@ -254,7 +254,7 @@ private static void cleanUpDB()
+ 				cleanCount += stmt.executeUpdate("DELETE FROM auction_bid WHERE auctionId IN (SELECT id FROM clanhall WHERE ownerId <> 0 AND sellerClanName='');");
+ 				
+ 				// Clan related
+-				cleanCount += stmt.executeUpdate("DELETE FROM clan_data WHERE clan_data.leader_id NOT IN (SELECT obj_Id FROM characters);");
++				cleanCount += stmt.executeUpdate("DELETE FROM clan_data WHERE clan_data.leader_id NOT IN (SELECT obj_Id FROM characters UNION SELECT obj_Id FROM autobots);");
+ 				cleanCount += stmt.executeUpdate("DELETE FROM auction_bid WHERE auction_bid.bidderId NOT IN (SELECT clan_id FROM clan_data);");
+ 				cleanCount += stmt.executeUpdate("DELETE FROM clanhall_functions WHERE clanhall_functions.hall_id NOT IN (SELECT id FROM clanhall WHERE ownerId <> 0);");
+ 				cleanCount += stmt.executeUpdate("DELETE FROM clan_privs WHERE clan_privs.clan_id NOT IN (SELECT clan_id FROM clan_data);");
+@@ -265,7 +265,7 @@ private static void cleanUpDB()
+ 				cleanCount += stmt.executeUpdate("DELETE FROM siege_clans WHERE siege_clans.clan_id NOT IN (SELECT clan_id FROM clan_data);");
+ 				
+ 				// Items
+-				cleanCount += stmt.executeUpdate("DELETE FROM items WHERE items.owner_id (NOT IN (SELECT obj_Id FROM characters) OR NOT IN (SELECT obj_Id FROM autobots)) AND items.owner_id NOT IN (SELECT clan_id FROM clan_data);");
++				cleanCount += stmt.executeUpdate("DELETE from items WHERE items.owner_id NOT IN (SELECT obj_Id FROM characters) AND items.owner_id NOT IN (SELECT clan_id FROM clan_data) AND items.owner_id NOT IN (SELECT obj_Id FROM autobots);");
+ 				
+ 				// Forum related
+ 				cleanCount += stmt.executeUpdate("DELETE FROM forums WHERE forums.forum_owner_id NOT IN (SELECT clan_id FROM clan_data) AND forums.forum_parent=2;");
+diff --git a/src/main/java/net/sf/l2j/gameserver/model/actor/Player.java b/src/main/java/net/sf/l2j/gameserver/model/actor/Player.java
+index f315cd76d..be37a967a 100644
+--- a/src/main/java/net/sf/l2j/gameserver/model/actor/Player.java
++++ b/src/main/java/net/sf/l2j/gameserver/model/actor/Player.java
+@@ -1,5 +1,6 @@
+ package net.sf.l2j.gameserver.model.actor;
+ 
++import dev.l2j.autobots.AutobotsManager;
+ import net.sf.l2j.Config;
+ import net.sf.l2j.L2DatabaseFactory;
+ import net.sf.l2j.commons.concurrent.ThreadPool;
+@@ -368,6 +369,26 @@
+ 	
+ 	private Door _requestedGate;
+ 	
++	private Location _enterWorldLocation;
++	
++	public Location getEnterWorldLocation(){
++	    return _enterWorldLocation;
++    }
++    
++    public void setEnterWorldLocation(Location location){
++	    _enterWorldLocation = location;
++    }
++
++    private Location _lastDeathLocation;
++
++    public Location getLastDeathLocation(){
++        return _lastDeathLocation;
++    }
++
++    public void setLastDeathLocation(Location location){
++        _lastDeathLocation = location;
++    }
++	
+ 	/**
+ 	 * Constructor of Player (use Creature constructor).
+ 	 * <ul>
+@@ -2633,8 +2654,9 @@ public void onAction(Player player)
+ 	@Override
+ 	public void onActionShift(Player player)
+ 	{
+-		if (player.isGM())
+-			AdminEditChar.showCharacterInfo(player, this);
++		if (player.isGM()) {
++            AdminEditChar.showCharacterInfo(player, this);
++        }			
+ 		
+ 		super.onActionShift(player);
+ 	}
+@@ -8081,6 +8103,8 @@ else if (_summon != null)
+ 			// friends & blocklist update
+ 			notifyFriends(false);
+ 			getBlockList().playerLogout();
++
++            AutobotsManager.INSTANCE.onLogout(this);
+ 		}
+ 		catch (Exception e)
+ 		{
+diff --git a/src/main/java/net/sf/l2j/gameserver/model/actor/ai/type/AbstractAI.java b/src/main/java/net/sf/l2j/gameserver/model/actor/ai/type/AbstractAI.java
+index 4290c7f27..94459d6a0 100644
+--- a/src/main/java/net/sf/l2j/gameserver/model/actor/ai/type/AbstractAI.java
++++ b/src/main/java/net/sf/l2j/gameserver/model/actor/ai/type/AbstractAI.java
+@@ -1,9 +1,6 @@
+ package net.sf.l2j.gameserver.model.actor.ai.type;
+ 
+-import java.util.concurrent.Future;
+-
+ import net.sf.l2j.commons.concurrent.ThreadPool;
+-
+ import net.sf.l2j.gameserver.enums.AiEventType;
+ import net.sf.l2j.gameserver.enums.IntentionType;
+ import net.sf.l2j.gameserver.model.L2Skill;
+@@ -15,15 +12,11 @@
+ import net.sf.l2j.gameserver.model.actor.ai.NextAction;
+ import net.sf.l2j.gameserver.model.location.Location;
+ import net.sf.l2j.gameserver.model.location.SpawnLocation;
+-import net.sf.l2j.gameserver.network.serverpackets.AutoAttackStart;
+-import net.sf.l2j.gameserver.network.serverpackets.AutoAttackStop;
+-import net.sf.l2j.gameserver.network.serverpackets.Die;
+-import net.sf.l2j.gameserver.network.serverpackets.MoveToLocation;
+-import net.sf.l2j.gameserver.network.serverpackets.MoveToPawn;
+-import net.sf.l2j.gameserver.network.serverpackets.StopMove;
+-import net.sf.l2j.gameserver.network.serverpackets.StopRotation;
++import net.sf.l2j.gameserver.network.serverpackets.*;
+ import net.sf.l2j.gameserver.taskmanager.AttackStanceTaskManager;
+ 
++import java.util.concurrent.Future;
++
+ abstract class AbstractAI
+ {
+ 	private static final int FOLLOW_INTERVAL = 1000;
+diff --git a/src/main/java/net/sf/l2j/gameserver/model/actor/player/HennaList.java b/src/main/java/net/sf/l2j/gameserver/model/actor/player/HennaList.java
+index 9248ec81d..0e829644b 100644
+--- a/src/main/java/net/sf/l2j/gameserver/model/actor/player/HennaList.java
++++ b/src/main/java/net/sf/l2j/gameserver/model/actor/player/HennaList.java
+@@ -1,5 +1,13 @@
+ package net.sf.l2j.gameserver.model.actor.player;
+ 
++import net.sf.l2j.L2DatabaseFactory;
++import net.sf.l2j.commons.logging.CLogger;
++import net.sf.l2j.gameserver.data.xml.HennaData;
++import net.sf.l2j.gameserver.enums.actors.ClassId;
++import net.sf.l2j.gameserver.enums.actors.HennaType;
++import net.sf.l2j.gameserver.model.actor.Player;
++import net.sf.l2j.gameserver.model.item.Henna;
++
+ import java.sql.Connection;
+ import java.sql.PreparedStatement;
+ import java.sql.ResultSet;
+@@ -8,15 +16,6 @@
+ import java.util.Objects;
+ import java.util.stream.Collectors;
+ 
+-import net.sf.l2j.commons.logging.CLogger;
+-
+-import net.sf.l2j.L2DatabaseFactory;
+-import net.sf.l2j.gameserver.data.xml.HennaData;
+-import net.sf.l2j.gameserver.enums.actors.ClassId;
+-import net.sf.l2j.gameserver.enums.actors.HennaType;
+-import net.sf.l2j.gameserver.model.actor.Player;
+-import net.sf.l2j.gameserver.model.item.Henna;
+-
+ /**
+  * This class handles dyes (or {@link Henna}s) of a {@link Player}.
+  */
+@@ -43,7 +42,7 @@ public HennaList(Player owner)
+ 	 * <br>
+ 	 * A stat can't be superior to 5. Previous stats are dumped.
+ 	 */
+-	private void recalculateStats()
++    private void recalculateStats()
+ 	{
+ 		for (int i = 0; i < _stats.length; i++)
+ 			_stats[i] = 0;
+@@ -86,7 +85,7 @@ private int indexOf(Henna henna)
+ 	/**
+ 	 * @return the first empty slot on this {@link HennaList}.
+ 	 */
+-	private int getEmptySlotIndex()
++    private int getEmptySlotIndex()
+ 	{
+ 		for (int i = 0; i < getMaxSize(); i++)
+ 		{
+@@ -265,6 +264,17 @@ public boolean add(Henna henna)
+ 		recalculateStats();
+ 		return true;
+ 	}
++
++    public boolean addDontStore(Henna henna)
++    {
++        final int slot = getEmptySlotIndex();
++        if (slot < 0)
++            return false;
++
++        _hennas[slot] = henna;
++        recalculateStats();
++        return true;
++    }
+ 	
+ 	/**
+ 	 * @param henna : The Henna to remove.
+diff --git a/src/main/java/net/sf/l2j/gameserver/model/pledge/Clan.java b/src/main/java/net/sf/l2j/gameserver/model/pledge/Clan.java
+index 8a35d1d27..c2b3209c3 100644
+--- a/src/main/java/net/sf/l2j/gameserver/model/pledge/Clan.java
++++ b/src/main/java/net/sf/l2j/gameserver/model/pledge/Clan.java
+@@ -38,7 +38,7 @@
+ {
+ 	private static final CLogger LOGGER = new CLogger(Clan.class.getName());
+ 	
+-	private static final String LOAD_MEMBERS = "SELECT char_name,level,classid,obj_Id,title,power_grade,subpledge,apprentice,sponsor,sex,race FROM characters WHERE clanid=?";
++	private static final String LOAD_MEMBERS = "SELECT char_name,level,classid,obj_Id,title,power_grade,subpledge,apprentice,sponsor,sex,race FROM characters WHERE clanid=? UNION SELECT char_name,level,classid,obj_Id,title,power_grade,subpledge,apprentice,sponsor,sex,race FROM autobots WHERE clanid=?";
+ 	private static final String LOAD_SUBPLEDGES = "SELECT sub_pledge_id,name,leader_id FROM clan_subpledges WHERE clan_id=?";
+ 	private static final String LOAD_PRIVILEDGES = "SELECT privs,rank FROM clan_privs WHERE clan_id=?";
+ 	private static final String LOAD_SKILLS = "SELECT skill_id,skill_level FROM clan_skills WHERE clan_id=?";
+@@ -174,6 +174,7 @@ public Clan(int clanId, int leaderId)
+ 			try (PreparedStatement ps = con.prepareStatement(LOAD_MEMBERS))
+ 			{
+ 				ps.setInt(1, _clanId);
++                ps.setInt(2, _clanId);
+ 				
+ 				try (ResultSet rs = ps.executeQuery())
+ 				{
+diff --git a/src/main/java/net/sf/l2j/gameserver/network/clientpackets/Action.java b/src/main/java/net/sf/l2j/gameserver/network/clientpackets/Action.java
+index fbb9e9731..b0333a896 100644
+--- a/src/main/java/net/sf/l2j/gameserver/network/clientpackets/Action.java
++++ b/src/main/java/net/sf/l2j/gameserver/network/clientpackets/Action.java
+@@ -1,5 +1,6 @@
+ package net.sf.l2j.gameserver.network.clientpackets;
+ 
++import dev.l2j.autobots.AutobotsManager;
+ import net.sf.l2j.gameserver.model.World;
+ import net.sf.l2j.gameserver.model.WorldObject;
+ import net.sf.l2j.gameserver.model.actor.Player;
+@@ -50,6 +51,10 @@ protected void runImpl()
+ 			player.sendPacket(ActionFailed.STATIC_PACKET);
+ 			return;
+ 		}
++
++        if(AutobotsManager.INSTANCE.onAction(player, target, _isShiftAction)) {
++            return;
++        }
+ 		
+ 		final Player targetPlayer = target.getActingPlayer();
+ 		if (targetPlayer != null && targetPlayer.getDuelState() == DuelState.DEAD)
+diff --git a/src/main/java/net/sf/l2j/gameserver/network/clientpackets/AttackRequest.java b/src/main/java/net/sf/l2j/gameserver/network/clientpackets/AttackRequest.java
+index 6d00970c0..a113caa40 100644
+--- a/src/main/java/net/sf/l2j/gameserver/network/clientpackets/AttackRequest.java
++++ b/src/main/java/net/sf/l2j/gameserver/network/clientpackets/AttackRequest.java
+@@ -1,5 +1,6 @@
+ package net.sf.l2j.gameserver.network.clientpackets;
+ 
++import dev.l2j.autobots.AutobotsManager;
+ import net.sf.l2j.gameserver.model.World;
+ import net.sf.l2j.gameserver.model.WorldObject;
+ import net.sf.l2j.gameserver.model.actor.Player;
+@@ -52,6 +53,10 @@ protected void runImpl()
+ 			return;
+ 		}
+ 		
++		if(AutobotsManager.INSTANCE.onAttackRequest(activeChar, target, _isShiftAction)) {
++            return;
++        }
++		
+ 		if (activeChar.getTarget() != target)
+ 			target.onAction(activeChar);
+ 		else
+diff --git a/src/main/java/net/sf/l2j/gameserver/network/clientpackets/EnterWorld.java b/src/main/java/net/sf/l2j/gameserver/network/clientpackets/EnterWorld.java
+index a5efd77a0..d7d2485ed 100644
+--- a/src/main/java/net/sf/l2j/gameserver/network/clientpackets/EnterWorld.java
++++ b/src/main/java/net/sf/l2j/gameserver/network/clientpackets/EnterWorld.java
+@@ -1,20 +1,11 @@
+ package net.sf.l2j.gameserver.network.clientpackets;
+ 
+-import java.sql.Connection;
+-import java.sql.PreparedStatement;
+-import java.sql.ResultSet;
+-import java.util.Map.Entry;
+-
++import dev.l2j.autobots.AutobotsManager;
+ import net.sf.l2j.Config;
+ import net.sf.l2j.L2DatabaseFactory;
+ import net.sf.l2j.gameserver.communitybbs.Manager.MailBBSManager;
+ import net.sf.l2j.gameserver.data.SkillTable.FrequentSkill;
+-import net.sf.l2j.gameserver.data.manager.CastleManager;
+-import net.sf.l2j.gameserver.data.manager.ClanHallManager;
+-import net.sf.l2j.gameserver.data.manager.CoupleManager;
+-import net.sf.l2j.gameserver.data.manager.DimensionalRiftManager;
+-import net.sf.l2j.gameserver.data.manager.PetitionManager;
+-import net.sf.l2j.gameserver.data.manager.SevenSignsManager;
++import net.sf.l2j.gameserver.data.manager.*;
+ import net.sf.l2j.gameserver.data.xml.AdminData;
+ import net.sf.l2j.gameserver.data.xml.AnnouncementData;
+ import net.sf.l2j.gameserver.data.xml.MapRegionData.TeleportType;
+@@ -31,34 +22,22 @@
+ import net.sf.l2j.gameserver.model.entity.Castle;
+ import net.sf.l2j.gameserver.model.entity.Siege;
+ import net.sf.l2j.gameserver.model.holder.IntIntHolder;
++import net.sf.l2j.gameserver.model.location.Location;
+ import net.sf.l2j.gameserver.model.olympiad.Olympiad;
+ import net.sf.l2j.gameserver.model.pledge.Clan;
+ import net.sf.l2j.gameserver.model.pledge.SubPledge;
+ import net.sf.l2j.gameserver.network.GameClient.GameClientState;
+ import net.sf.l2j.gameserver.network.SystemMessageId;
+-import net.sf.l2j.gameserver.network.serverpackets.ActionFailed;
+-import net.sf.l2j.gameserver.network.serverpackets.Die;
+-import net.sf.l2j.gameserver.network.serverpackets.EtcStatusUpdate;
+-import net.sf.l2j.gameserver.network.serverpackets.ExMailArrived;
+-import net.sf.l2j.gameserver.network.serverpackets.ExStorageMaxCount;
+-import net.sf.l2j.gameserver.network.serverpackets.FriendList;
+-import net.sf.l2j.gameserver.network.serverpackets.HennaInfo;
+-import net.sf.l2j.gameserver.network.serverpackets.ItemList;
+-import net.sf.l2j.gameserver.network.serverpackets.NpcHtmlMessage;
+-import net.sf.l2j.gameserver.network.serverpackets.PlaySound;
+-import net.sf.l2j.gameserver.network.serverpackets.PledgeShowMemberListAll;
+-import net.sf.l2j.gameserver.network.serverpackets.PledgeShowMemberListUpdate;
+-import net.sf.l2j.gameserver.network.serverpackets.PledgeSkillList;
+-import net.sf.l2j.gameserver.network.serverpackets.PledgeStatusChanged;
+-import net.sf.l2j.gameserver.network.serverpackets.QuestList;
+-import net.sf.l2j.gameserver.network.serverpackets.ShortCutInit;
+-import net.sf.l2j.gameserver.network.serverpackets.SkillCoolTime;
+-import net.sf.l2j.gameserver.network.serverpackets.SystemMessage;
+-import net.sf.l2j.gameserver.network.serverpackets.UserInfo;
++import net.sf.l2j.gameserver.network.serverpackets.*;
+ import net.sf.l2j.gameserver.scripting.Quest;
+ import net.sf.l2j.gameserver.scripting.QuestState;
+ import net.sf.l2j.gameserver.taskmanager.GameTimeTaskManager;
+ 
++import java.sql.Connection;
++import java.sql.PreparedStatement;
++import java.sql.ResultSet;
++import java.util.Map.Entry;
++
+ public class EnterWorld extends L2GameClientPacket
+ {
+ 	private static final String LOAD_PLAYER_QUESTS = "SELECT name,var,value FROM character_quests WHERE charId=?";
+@@ -308,6 +287,7 @@ else if (Config.SERVER_NEWS)
+ 		PetitionManager.getInstance().checkPetitionMessages(player);
+ 		
+ 		player.onPlayerEnter();
++        AutobotsManager.INSTANCE.onEnterWorld(player);
+ 		
+ 		sendPacket(new SkillCoolTime(player));
+ 		
+@@ -325,6 +305,8 @@ else if (Config.SERVER_NEWS)
+ 		if (!player.isGM() && (!player.isInSiege() || player.getSiegeState() < 2) && player.isInsideZone(ZoneId.SIEGE))
+ 			player.teleportTo(TeleportType.TOWN);
+ 		
++		player.setEnterWorldLocation(new Location(player.getX(), player.getY(), player.getZ()));
++		
+ 		player.sendPacket(ActionFailed.STATIC_PACKET);
+ 	}
+ 	
+diff --git a/src/main/java/net/sf/l2j/gameserver/network/clientpackets/MoveBackwardToLocation.java b/src/main/java/net/sf/l2j/gameserver/network/clientpackets/MoveBackwardToLocation.java
+index 442ea860f..9319f6910 100644
+--- a/src/main/java/net/sf/l2j/gameserver/network/clientpackets/MoveBackwardToLocation.java
++++ b/src/main/java/net/sf/l2j/gameserver/network/clientpackets/MoveBackwardToLocation.java
+@@ -1,7 +1,6 @@
+ package net.sf.l2j.gameserver.network.clientpackets;
+ 
+-import java.nio.BufferUnderflowException;
+-
++import dev.l2j.autobots.AutobotsManager;
+ import net.sf.l2j.Config;
+ import net.sf.l2j.gameserver.enums.IntentionType;
+ import net.sf.l2j.gameserver.model.actor.Player;
+@@ -11,6 +10,8 @@
+ import net.sf.l2j.gameserver.network.serverpackets.EnchantResult;
+ import net.sf.l2j.gameserver.network.serverpackets.StopMove;
+ 
++import java.nio.BufferUnderflowException;
++
+ public class MoveBackwardToLocation extends L2GameClientPacket
+ {
+ 	private int _targetX;
+@@ -95,6 +96,11 @@ protected void runImpl()
+ 			activeChar.sendPacket(ActionFailed.STATIC_PACKET);
+ 			return;
+ 		}
++		
++		if(AutobotsManager.INSTANCE.onMove(activeChar, _targetX, _targetY, _targetZ)) {
++            return;
++        }
++		
+ 		activeChar.getAI().setIntention(IntentionType.MOVE_TO, new Location(_targetX, _targetY, _targetZ));
+ 	}
+ }
+\ No newline at end of file
+diff --git a/src/main/java/net/sf/l2j/gameserver/network/clientpackets/RequestBypassToServer.java b/src/main/java/net/sf/l2j/gameserver/network/clientpackets/RequestBypassToServer.java
+index 9510c4989..f8d1b2f17 100644
+--- a/src/main/java/net/sf/l2j/gameserver/network/clientpackets/RequestBypassToServer.java
++++ b/src/main/java/net/sf/l2j/gameserver/network/clientpackets/RequestBypassToServer.java
+@@ -1,8 +1,6 @@
+ package net.sf.l2j.gameserver.network.clientpackets;
+ 
+-import java.util.StringTokenizer;
+-import java.util.logging.Logger;
+-
++import dev.l2j.autobots.AutobotsManager;
+ import net.sf.l2j.Config;
+ import net.sf.l2j.gameserver.communitybbs.CommunityBoard;
+ import net.sf.l2j.gameserver.data.manager.HeroManager;
+@@ -22,6 +20,9 @@
+ import net.sf.l2j.gameserver.network.serverpackets.NpcHtmlMessage;
+ import net.sf.l2j.gameserver.scripting.QuestState;
+ 
++import java.util.StringTokenizer;
++import java.util.logging.Logger;
++
+ public final class RequestBypassToServer extends L2GameClientPacket
+ {
+ 	private static final Logger GMAUDIT_LOG = Logger.getLogger("gmaudit");
+@@ -39,11 +40,12 @@ protected void runImpl()
+ 	{
+ 		if (_command.isEmpty())
+ 			return;
++
++        final Player player = getClient().getPlayer();
+ 		
+-		if (!FloodProtectors.performAction(getClient(), Action.SERVER_BYPASS))
+-			return;
++		if (!FloodProtectors.performAction(getClient(), Action.SERVER_BYPASS) && !player.isGM())
++			return;		
+ 		
+-		final Player player = getClient().getPlayer();
+ 		if (player == null)
+ 			return;
+ 		
+@@ -185,5 +187,7 @@ else if (_command.startsWith("arenachange")) // change
+ 			final int arenaId = Integer.parseInt(_command.substring(12).trim());
+ 			player.enterOlympiadObserverMode(arenaId);
+ 		}
++
++        AutobotsManager.INSTANCE.onBypass(player, _command);
+ 	}
+ }
+\ No newline at end of file
+diff --git a/src/main/java/net/sf/l2j/gameserver/network/clientpackets/RequestMagicSkillUse.java b/src/main/java/net/sf/l2j/gameserver/network/clientpackets/RequestMagicSkillUse.java
+index e7440dcf2..c16df41f6 100644
+--- a/src/main/java/net/sf/l2j/gameserver/network/clientpackets/RequestMagicSkillUse.java
++++ b/src/main/java/net/sf/l2j/gameserver/network/clientpackets/RequestMagicSkillUse.java
+@@ -1,5 +1,6 @@
+ package net.sf.l2j.gameserver.network.clientpackets;
+ 
++import dev.l2j.autobots.AutobotsManager;
+ import net.sf.l2j.Config;
+ import net.sf.l2j.gameserver.enums.AiEventType;
+ import net.sf.l2j.gameserver.enums.IntentionType;
+@@ -31,6 +32,10 @@ protected void runImpl()
+ 		if (player == null)
+ 			return;
+ 		
++		if(AutobotsManager.INSTANCE.onUseMagic(player, _skillId, _ctrlPressed)) {
++            return;
++        }
++		
+ 		// Get the L2Skill template corresponding to the skillID received from the client
+ 		final L2Skill skill = player.getSkill(_skillId);
+ 		if (skill == null)
+diff --git a/src/main/java/net/sf/l2j/gameserver/network/clientpackets/RequestTutorialPassCmdToServer.java b/src/main/java/net/sf/l2j/gameserver/network/clientpackets/RequestTutorialPassCmdToServer.java
+index 035deb8b1..6e8bf809c 100644
+--- a/src/main/java/net/sf/l2j/gameserver/network/clientpackets/RequestTutorialPassCmdToServer.java
++++ b/src/main/java/net/sf/l2j/gameserver/network/clientpackets/RequestTutorialPassCmdToServer.java
+@@ -1,5 +1,6 @@
+ package net.sf.l2j.gameserver.network.clientpackets;
+ 
++import dev.l2j.autobots.autofarm.AutofarmCommandHandler;
+ import net.sf.l2j.gameserver.model.actor.Player;
+ import net.sf.l2j.gameserver.scripting.QuestState;
+ 
+@@ -23,5 +24,7 @@ protected void runImpl()
+ 		QuestState qs = player.getQuestState("Tutorial");
+ 		if (qs != null)
+ 			qs.getQuest().notifyEvent(_bypass, null, player);
++
++        AutofarmCommandHandler.INSTANCE.onBypass(player, _bypass);
+ 	}
+ }
+\ No newline at end of file
+diff --git a/src/main/java/net/sf/l2j/gameserver/network/clientpackets/Say2.java b/src/main/java/net/sf/l2j/gameserver/network/clientpackets/Say2.java
+index b25996469..4c8ceabc0 100644
+--- a/src/main/java/net/sf/l2j/gameserver/network/clientpackets/Say2.java
++++ b/src/main/java/net/sf/l2j/gameserver/network/clientpackets/Say2.java
+@@ -166,9 +166,11 @@ protected void runImpl()
+ 			LOGGER.warn("{} tried to use unregistred chathandler type: {}.", player.getName(), _type);
+ 			return;
+ 		}
+-		
++
++        if(AutobotsManager.INSTANCE.onChat(_type, player, _target, _text, handler)) {
++            return;
++        }
+ 		handler.handleChat(_type, player, _target, _text);
+-        AutobotsManager.INSTANCE.handleChat(_type, player, _target, _text);
+ 	}
+ 	
+ 	private static boolean checkBot(String text)

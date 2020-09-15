@@ -1,0 +1,4 @@
+<tr>
+<td align=right width={{labelwidth}}>{{label}}: </td>
+<td><button value="" action="bypass admin_a b sv {{componentId}} {{action}}" width=15 height=15 back="CheckBox{{checked}}" fore="CheckBox{{checked}}"></td>
+</tr>

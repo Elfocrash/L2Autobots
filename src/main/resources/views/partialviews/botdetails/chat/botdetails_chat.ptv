@@ -1,0 +1,20 @@
+<table width="610" height="22" bgcolor="000000">
+    <tr>
+        <td width="610" align="left">
+            <table width="610">
+                <tr>
+                    {{botdetails_chat_tabs.ptv}}
+                </tr>
+            </table>
+        </td>
+    </tr>
+</table>
+
+<table width="610" height="20" bgcolor="000000">
+    <tr>
+        <td fixwidth="580" align="left">
+            {{chat}}
+        </td>
+    </tr>
+    {{chat_input}}
+</table>

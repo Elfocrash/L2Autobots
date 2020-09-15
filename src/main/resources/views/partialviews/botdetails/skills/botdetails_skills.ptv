@@ -1,0 +1,21 @@
+<br>
+<table width="600" bgcolor="000000">
+    <tr>
+        <td width="600" align="center">
+            Skill Preferences
+        </td>
+    </tr>
+</table>
+
+{{existingconditions}}
+
+<br>
+
+<table width="600" bgcolor="000000">
+    <tr>
+        <td width="600" align="center">
+            Add new condition
+        </td>
+    </tr>
+</table>
+{{addcondition}}

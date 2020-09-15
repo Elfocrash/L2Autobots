@@ -1,0 +1,5 @@
+<table width="150">
+    <tr><td width=150 align=left>Selected: {{selectedcount}} bots</td></tr>
+    {{selected_options_offline.ptv}}
+    {{selected_options_online.ptv}}
+</table>

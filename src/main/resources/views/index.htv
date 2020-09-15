@@ -1,0 +1,64 @@
+<html><body><br>
+
+<table width="610">
+    <tr>
+        <td width="50" align="center"><img src="partymatchicon" width="32" height="32"></td>
+        <td width="230" align="left"><font color="AAAAAA">Autobots Engine</font> <br1>Active bots: {{activebotscount}}</td>
+        <td width="90" align="right"></td>
+        <td width="100" align="center"><edit var="Search" width=100 height=14></td>
+        <td width="80">
+            <button action="bypass admin_a b s 1 10 $Search" value="Search" width=74 height=21 back="Btn1_normalOn" fore="Btn1_normal">{{index_filter.ptv}}
+        </td>
+        <td fixwidth="15" align="center"><button action="bypass admin_a b" value="" width=15 height=15 back="shortcut_rotate_down" fore="shortcut_rotate"></td>
+        <td fixwidth="15" align="center"><button action="bypass admin_a b sett" value="" width=15 height=15 back="L2UI_CH3.joypad_shortcut_down" fore="L2UI_CH3.joypad_shortcut"></td>
+        
+    </tr>
+</table><br>
+
+<table width="610" bgcolor="000000">
+    <tr>
+        <td fixwidth="16" align="center"><a action="bypass admin_a b ord {{onord}}">#</a></td>
+        <td fixwidth="20" align="center"><a action="bypass admin_a b ord {{lvlord}}">Lv</a></td>
+        <td fixwidth="75" align="center">Name</td>
+        <td fixwidth="80" align="center">Class</td>
+        <td fixwidth="50" align="center">Clan</td>
+        <td fixwidth="50" align="center">Ally</td>
+        <td fixwidth="60" align="center">Actions</td>
+        {{index_checkbox.ptv}}
+    </tr>
+</table>
+<table width="610" border=0 cellspacing=0 cellpadding=0>
+    <tr>
+        <td width=610><img src="l2ui.squaregray" width="600" height="1"></td>
+    </tr>
+</table><br>
+<table width="610" bgcolor="000000">
+    {{listbotsrow.ptv}}
+</table>
+<table border=0 cellspacing=0 cellpadding=0>
+    <tr>
+        <td width=610><img src="l2ui.squaregray" width="600" height="1"></td>
+    </tr>
+</table><br>
+<center><table width="600" bgcolor="000000" cellpadding=0>
+    <tr>
+        {{pagination}}
+    </tr>
+</table></center>
+<table border=0 cellspacing=0 cellpadding=0>
+    <tr>
+        <td width=610><img src="l2ui.squaregray" width="600" height="1"></td>
+    </tr>
+</table><br>
+
+<table width="610" height="22" bgcolor="000000">
+<tr>
+    <td width="610" align="left">
+        <table width="610">
+            <tr>{{index_tabs.ptv}}</tr>
+        </table>
+    </td>
+</tr>
+</table>
+{{index_tabtable.ptv}}
+</body></html>

@@ -1,0 +1,28 @@
+<html><body><br>
+
+<table width="610">
+    <tr>
+        <td width="50" align="center"><img src="menuicon4" width="32" height="32"></td>
+        <td width="230" align="left"><font color="AAAAAA">Autobots Engine</font> <br1>Global settings</td>
+        <td width="90" align="right"></td>
+        <td width="75" align="center"><button action="bypass admin_a b navh" value="Back" width=74 height=21 back="L2UI_CH3.Btn1_normalOn" fore="L2UI_CH3.Btn1_normal"></td>
+    </tr>
+</table><br>
+
+<table width="610">
+    <tr>
+        <td width="300">
+            <table width="300" bgcolor="000000">
+                {{iteretiontxt}}
+                {{rangetxt}}
+            </table>
+        </td>
+        <td width="300">
+            <table width="300" bgcolor="000000">
+                {{titletxt}}
+            </table>
+        </td>
+    </tr>
+</table>
+
+</body></html>

@@ -1,0 +1,33 @@
+<br>
+
+<table width="610" height="340">
+    <tr>
+        <td width="180" align="left">
+            <table width="180" bgcolor="000000">
+                <tr>
+                    <td width="180" align="center">
+                        Actions
+                    </td>
+                </tr>
+                <tr>
+                    <td width="180" align="center">
+                        <table width="180">
+                            <tr>
+                                <td width="32" align="left"><button value="" action="bypass admin_a b t bs a {{ctrlbotcmd}}" width=32 height=32 back="L2UI_CH3.partymatchicon_down" fore="L2UI_CH3.partymatchicon{{ctrlbotimg}}"></td>
+                                <td width="32" align="left"><button value="" action="bypass admin_a b t bs a st" width=32 height=32 back="Icon.action001" fore="Icon.action001"></td>
+                                <td width="32" align="left"><button value="" action="bypass admin_a b t bs a ru" width=32 height=32 back="Icon.action002" fore="Icon.action002"></td>                                
+                                <td width="32" align="left"></td>
+                            </tr>
+                            <tr>
+                                <td width="32" align="left"><button value="" action="bypass admin_a b t bs sell" width=32 height=32 back="Icon.action018" fore="Icon.action018"></td>
+                                <td width="32" align="left"><button value="" action="bypass admin_a b t bs buy" width=32 height=32 back="Icon.action028" fore="Icon.action028"></td>
+                                <td width="32" align="left"><button value="" action="bypass admin_a b t bs craft" width=32 height=32 back="Icon.action042" fore="Icon.action042"></td>
+                                <td width="32" align="left"></td>                                
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+</table>

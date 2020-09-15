@@ -1,0 +1,36 @@
+<table width="600"  bgcolor="000000">
+    <tr>
+        <td>
+            <table width="300">
+                <tr>
+                    <td align=right width=100 height=24>Clan name: </td>
+                    <td><edit var="ClanName" width=135 height=14></td>
+                </tr>
+                <tr>
+                    <td align=right width=100 height=24>Clan level: </td>
+                    <td><combobox var="ClanLevel" width=100 height=13 list="1;2;3;4;5;6;7;8"></td>
+                </tr>
+                <tr>
+                    <td align=right width=100 height=24>Clan leader: </td>
+                    <td><combobox var="ClanLeader" width=100 height=13 list="{{membernames}}"></td>
+                </tr>
+                <tr>
+                    <td align=right width=100 height=24>Crest url (optional): </td>
+                    <td><edit var="CrestUrl" width=200 height=14></td>
+                </tr>
+            </table>
+        </td>
+        <td>
+            <table width="300">
+                <tr><td><edit var="MultiClan" width=135 height=14></td></tr><tr></tr>
+                <tr><td><button value="Remove clan" action="bypass admin_a b cln rmc $MultiClan" width=140 height=21 back="bigbutton3_down" fore="bigbutton3"></td></tr>
+                <tr><td><button value="Remove from clan" action="bypass admin_a b cln rmm" width=140 height=21 back="bigbutton3_down" fore="bigbutton3"></td></tr>
+            </table>
+        </td>
+    </tr>    
+</table>
+<table width="300">
+    <tr>
+        <td align=center><button value="Create clan" action="bypass admin_a b clc $ClanName $ClanLevel $ClanLeader $CrestUrl" width=140 height=21 back="bigbutton3_down" fore="bigbutton3"></td>
+    </tr>
+</table>

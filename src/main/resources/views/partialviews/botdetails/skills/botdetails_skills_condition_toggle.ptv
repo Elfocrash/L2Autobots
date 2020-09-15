@@ -1,0 +1,8 @@
+<table width="600">
+<tr>
+    <td width="32" align=left><img src="{{skillicon}}" width=32 height=16></td>
+    <td width=60 align=left><font color="LEVEL">{{skillname}}</font></td>
+    <td width=350 align=right>Is enabled</td>
+    <td width=15 align=right><button value="" action="bypass admin_a b sk t {{skillid}}" width=15 height=15 back="CheckBox{{checked}}" fore="CheckBox{{checked}}"></td>
+</tr>
+</table>

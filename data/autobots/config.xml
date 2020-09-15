@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='utf-8'?>
+<settings>
+  <thinkIteration>350</thinkIteration>
+  <defaultTitle>Welcome to L2</defaultTitle>
+  <defaultTargetingRange>2000</defaultTargetingRange>
+  <defaultAttackPlayerType>None</defaultAttackPlayerType>
+  <defaultTargetingPreference>Random</defaultTargetingPreference>
+  <useManaPots>true</useManaPots>
+  <useQuickHealingPots>true</useQuickHealingPots>
+  <useGreaterHealingPots>true</useGreaterHealingPots>
+  <useGreaterCpPots>true</useGreaterCpPots>
+</settings>

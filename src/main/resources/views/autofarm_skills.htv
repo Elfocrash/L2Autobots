@@ -1,0 +1,13 @@
+<html><body><br>
+
+<table width="610">
+    <tr>
+        <td width="50" align="center"><img src="partymatchicon" width="32" height="32"></td>
+        <td width="230" align="left"><font color="AAAAAA">Autofarm Engine</font> <br1>Editing bot: <font color="FFFF00">{{name}}</font></td>
+        <td width="150" align="right"></td>
+        <td width="75" align="center"><button action="bypass autofarm start" value="Start" width=74 height=21 back="L2UI_CH3.Btn1_normalOn" fore="L2UI_CH3.Btn1_normal"></td>
+    </tr>
+</table><br>
+<table border=0 cellspacing=0 cellpadding=0><tr><td width=610><img src="l2ui.squaregray" width="600" height="1"></td></tr></table><br>
+{{content}}
+</body></html>
