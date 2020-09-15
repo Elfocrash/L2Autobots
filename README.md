@@ -1,5 +1,7 @@
 # L2Autobots
 
+[![](https://vistr.dev/badge?repo=elfocrash.l2autobots&corners=square)](https://github.com/Elfocrash/l2autobots)
+
 ![](logo.png)
 
 ## Installation stuff
