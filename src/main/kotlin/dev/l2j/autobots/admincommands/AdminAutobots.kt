@@ -724,12 +724,13 @@ class AdminAutobots : IAdminCommandHandler {
                         }
                     }
                     "lsme"-> { //load and spawn selected on me
-                        CoScopes.generalScope.launch {
-                            ViewStates.indexViewState(activeChar).selectedBots.forEach {
+                        val bots = ViewStates.indexViewState(activeChar).selectedBots.filter { !it.value.isOnline }
 
+                        CoScopes.generalScope.launch {
+                            bots.forEach {
                                 innerLaunch@CoScopes.massSpawnerScope.launch {
                                     val autobot = AutobotsDao.loadByName(it.value.name) ?: return@innerLaunch
-                                    if (autobot.isOnline) return@innerLaunch
+
                                     autobot.setXYZ(activeChar.x + Rnd.get(-150, 150), activeChar.y + Rnd.get(-150, 150), activeChar.z)
                                     AutobotsManager.spawnAutobot(autobot)
                                 }
